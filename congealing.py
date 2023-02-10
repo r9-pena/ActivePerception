@@ -5,13 +5,14 @@ from skimage.io import imread
 from skimage.color import rgb2gray
 import time
 import math
+from scipy.stats import entropy
 
 
 def congeal(img1, img2):
     imageA, imageB = img1, img2
     array_size = np.shape(imageA)
     # print(array_size)
-    start, end = int(array_size[1]*3/7), int(array_size[1]*4/7)
+    start, end = int(array_size[1]*2/5), int(array_size[1]*3/5)
 
     # Calculate initial error between the two images
     current_error = mse(imageA[:, start:end], imageB[:, start:end])
@@ -23,10 +24,10 @@ def congeal(img1, img2):
         new_error = mse(imageA[:, start:end], imageT[:, start:end])
         print('Current Error ' + str(i) + ': ' + str(current_error))
         print('New Error ' + str(i) + ': ' + str(new_error))
-        if new_error > current_error:
+        if new_error < current_error:
             print('hello')
             cv2.imwrite('./imgT.png', imageT)
-            i *= 10
+            i *= 8
             return i
         else:
             current_error = new_error
@@ -43,7 +44,7 @@ def mse(imageA, imageB):
 
 
 def A_Trans(image):
-    M = np.float32([[1, 0, 10], [0, 1, 0]])
+    M = np.float32([[1, 0, -8], [0, 1, 0]])
     imageT = cv2.warpAffine(image, M, (image.shape[1], image.shape[0]))
 
     return imageT
@@ -58,8 +59,8 @@ def depth_estimation(pixels, displacement, focal):
 
 
 def main():
-    path1 = './img1.png'
-    path2 = './img3.png'
+    path1 = './imgB1.jpeg'
+    path2 = './imgB2.jpeg'
 
     imageA = cv2.imread(path1)
     imageB = cv2.imread(path2)
