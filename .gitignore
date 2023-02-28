@@ -1,7 +1,8 @@
 *.png
 *.jpeg
+*.jpg
 
-./Demo
-./Dist_20
-./Dist_40
-./Dist_60
+*/Demo
+*/Dist_20
+*/Dist_40
+*/Dist_60

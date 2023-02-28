@@ -1,0 +1,5 @@
+The main function in the fixation file shows how to use the perform the congealing.
+Be sure to adjust the input image paths for the images that are being congealed.
+The program will also produce the final rotated image, for verification.
+The output of the program is the calculated rotation angle needed for the camera.
+The program also contains an auxiliary function which takes the angle calculated and the robot displacement as input, to calculate the depth of the object.
