@@ -4,12 +4,12 @@ import numpy as np
 import cv2
 import math
 
-def contour (img1, img2):
+def congeal (img1, img2):
     
-    img1 = cv2.imread('img1.jpeg', 1)
-    cv2.imshow("img1", img1)
-    img2 = cv2.imread('img2.jpeg', 1)
-    cv2.imshow('img2', img2)
+    img1 = img1
+    #cv2.imshow("img1", img1)
+    img2 = img2
+    #cv2.imshow('img2', img2)
 
     def bgr_hsv (img1, img2):
         hsv1 = cv2.cvtColor(img1, cv2.COLOR_BGR2HSV)
@@ -17,9 +17,9 @@ def contour (img1, img2):
         result1 = img1.copy()
         result2 = img2.copy()
 
-        lower1 = np.array([0, 170, 80])
+        lower1 = np.array([0, 98, 80])
         upper1 = np.array([10, 255, 255])
-        lower2 = np.array([160, 170, 80])
+        lower2 = np.array([160, 98, 80])
         upper2 = np.array([180, 255, 255]) 
 
         lower_mask1 = cv2.inRange(hsv1, lower1, upper1)
@@ -98,15 +98,16 @@ def contour (img1, img2):
     print(z)
 
     #Rotation through optical flow
-    angle = -Dist/z
+    angle = (Dist)/z
     angle_deg_optic = angle*180/math.pi
     print(angle*180/math.pi)
 
     #Rotation through trigonometry
     angle_T = math.atan(Dist/z)
     print(angle_T*180/math.pi)
+    array_result = np.array([angle_deg_optic, z])
     
     k = cv2.waitKey(0)
     cv2.destroyAllWindows()
     
-    return angle_deg_optic, z
+    return array_result

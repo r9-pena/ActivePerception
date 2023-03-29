@@ -1,8 +1,8 @@
-from picamera import PiCamera
+#from picamera import PiCamera
 from buildhat import MotorPair
 from buildhat import Motor
 import time
-import Contour
+from Contour import Contour
 import cv2
 import math
 
@@ -19,10 +19,12 @@ class LegoRobot():
         self.motor_c = Motor('C') # Camera motor
         self.motor_c.run_to_position(0) # Reset camera to position 0
         #initial picture taking
-        self.camera = PiCamera()
-        self.camera.vflip=True
-        self.camera.hflip=True
-        self.camera.resolution = (500,400)
+        self.camera = cv2.VideoCapture(0)
+        self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, 500)
+        self.camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 400)
+        #self.camera.flip()
+        #self.camera.hflip=True
+        #self.camera.resolution = (500,400)
         self.counter = 0
         self.algorithm = {
             'contour':Contour,
@@ -35,7 +37,8 @@ class LegoRobot():
         # first picture taking
         self.check_centering()
         path1 = './pic' + str(self.counter) +'.jpg'
-        img1 = self.camera.capture(path1)
+        ret, frame = self.camera.read()
+        cv2.imwrite(path1,frame)
         self.counter+=1
         
         # inital displacement movement
@@ -44,7 +47,8 @@ class LegoRobot():
         
         # second picture taking
         path2 = './pic' + str(self.counter) +'.jpg'
-        img2 = self.camera.capture(path2)
+        ret, frame = self.camera.read()
+        cv2.imwrite(path2,frame)
         self.counter+=1
         
         # process image
@@ -68,6 +72,7 @@ def main():
     distance_traveled = CIRCUMFERENCE * wheel_rotation
     robot = LegoRobot()
     robot.object_align(wheel_rotation,'contour')
+    robot.camera.release()
 
 if __name__ == "__main__":
     main()
