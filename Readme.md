@@ -1,6 +1,3 @@
-Update system:
-sudo apt
-
 # Lego Robot - Depth Estimation w/ Image Congealing
 ## Setup
 ### Requirements:
@@ -8,6 +5,12 @@ sudo apt
 + pip
 + git
 + opencv
++ buildhat
+
+### Update system:
+'''
+sudo apt-get update && sudo apt-get upgrade
+'''
 
 ### Install VSCode (optional):
 '''
@@ -31,3 +34,10 @@ $ sudo raspi-config
 '''
 
 Select 'Interface Options' -> 'Legacy Camera Option' -> 'Enable'
+
+### Enable Serial Ports
+'''
+sudo raspi-config
+'''
+
+Select 'Interface Options' -> 'Serial Port' -> 'No' -> 'Yes' -> 'Ok'
