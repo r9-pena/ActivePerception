@@ -41,17 +41,22 @@ class LegoRobot():
             return False
         path1 = './pics/pic' + str(self.counter) +'.jpeg'
         ret, frame = self.camera.read()
+        print(self.camera.get(cv2.CAP_PROP_FRAME_COUNT))
+        self.camera.release()
         cv2.imwrite(path1,frame)
         self.counter+=1
         
         # inital displacement movement
         self.pair.run_for_rotations(wheel_rotation, speedl=30, speedr = -30)
-        time.sleep(1)
+        time.sleep(5)
         
         # second picture taking
+        print(self.camera.get(cv2.CAP_PROP_FRAME_COUNT))
         path2 = './pics/pic' + str(self.counter) +'.jpeg'
-        ret, frame = self.camera.read()
-        cv2.imwrite(path2,frame)
+        self.camera = cv2.VideoCapture(0)
+        ret, frame2 = self.camera.read()
+        self.camera.release()
+        cv2.imwrite(path2,frame2)
         self.counter+=1
         
         # process image

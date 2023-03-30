@@ -1,4 +1,5 @@
 # Lego Robot - Depth Estimation w/ Image Congealing
+This demonstrate depth estimation through image congealing. This is done using a LegoRobot w/ the PiCamera. Three (3) algorithms are used for comparison. The report included in this repository discusses the performance of each algorithm.
 ## Setup
 ### Requirements:
 + python3
@@ -33,11 +34,11 @@ $ sudo apt install raspi-config
 $ sudo raspi-config
 ```
 
-Select 'Interface Options' -> 'Legacy Camera Option' -> 'Enable'
+Select `Interface Options` -> `Legacy Camera Option` -> `Enable`
 
 ### Enable Serial Ports
 ```
 sudo raspi-config
 ```
 
-> Select `Interface Options` -> `Serial Port` -> `No` -> `Yes` -> `Ok`
+Select `Interface Options` -> `Serial Port` -> `No` -> `Yes` -> `Ok`

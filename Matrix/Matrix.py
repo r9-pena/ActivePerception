@@ -16,7 +16,7 @@ def congeal(img1, img2):
 
     # Adjust window size to be compared. Ignore everything outside.
     w_start, w_end = int(array_size[1]*3/7), int(array_size[1]*5/7)
-    h_start, h_end = int(array_size[0]*2/5), int(array_size[0]*3/5)
+    h_start, h_end = int(array_size[0]*1/5), int(array_size[0]*4/5)
 
     # Calculate initial error between the two images
     current_error = mse(imageA[h_start:h_end, w_start:w_end],
@@ -35,7 +35,7 @@ def congeal(img1, img2):
             cv2.imwrite('./pics/imgT.png', imageT)
             angle = i-1
             depth = depth_estimation(angle, 5.18)
-            return angle
+            return (angle, depth)
         else:
             current_error = new_error
 
