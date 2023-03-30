@@ -32,14 +32,15 @@ def congeal(img1, img2):
         print('New Error ' + str(i) + ': ' + str(new_error))
         if new_error > 1.05*current_error:
             print('hello')
-            cv2.imwrite('./imgT.png', imageT)
+            cv2.imwrite('./pics/imgT.png', imageT)
             angle = i-1
+            depth = depth_estimation(angle, 5.18)
             return angle
         else:
             current_error = new_error
 
     # imageA[:, start:end] = imageA[:, start:end]-imageA[:, start:end]
-    cv2.imwrite('./imgT.png', imageT)
+    cv2.imwrite('./pics/imgT.png', imageT)
 
 
 # This function compares two images and returns the Mean-Squared Error Value

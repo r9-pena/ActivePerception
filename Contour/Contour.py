@@ -38,11 +38,11 @@ def congeal (img1, img2):
 
     #binary image to grayscale
     mask1, mask2 = bgr_hsv(img1, img2)[0], bgr_hsv(img1, img2)[1]
-    cv2.imwrite('mask1.jpeg', mask1)
-    mask1_gray = cv2.imread('mask1.jpeg', 0)
-    cv2.imwrite('mask2.jpeg', mask2)
-    mask2_gray = cv2.imread('mask2.jpeg', 0)
-    cv2.imshow('mask1_gray',mask1_gray)
+    cv2.imwrite('./pics/mask1.jpeg', mask1)
+    mask1_gray = cv2.imread('./pics/mask1.jpeg', 0)
+    cv2.imwrite('./pics/mask2.jpeg', mask2)
+    mask2_gray = cv2.imread('/pics/mask2.jpeg', 0)
+    cv2.imshow('./pics/mask1_gray',mask1_gray)
     print(mask1_gray.shape)
 
     #finding the contour
@@ -53,8 +53,8 @@ def congeal (img1, img2):
 
     cv2.drawContours(img1, contour1, -1, (0,255,0), 3)
     cv2.drawContours(img2, contour2, -1, (0,255,0), 3)
-    cv2.imwrite('contour1.jpeg', img1)
-    cv2.imwrite('contour2.jpeg', img2)
+    cv2.imwrite('./pics/contour1.jpeg', img1)
+    cv2.imwrite('./pics/contour2.jpeg', img2)
 
     #finding the center coordinate positions
     for c_pixel1 in contour1:
@@ -79,16 +79,16 @@ def congeal (img1, img2):
     #Center Marking
     img_c1 = img1
     img_c1[y1, x1] = (0,0,0)
-    cv2.imwrite('img_c1.jpeg', img_c1)
+    cv2.imwrite('./pics/img_c1.jpeg', img_c1)
     img_c2 = img2
     img_c2[y2, x2] = (0,0,0)
-    cv2.imwrite('img_c2.jpeg', img_c2)
+    cv2.imwrite('./pics/img_c2.jpeg', img_c2)
 
     #Image Translation
     img_T = img_c2
     T = np.float32([[1, 0, -pixel_dist], [0, 1, 0]])
     img_T = cv2.warpAffine(img_T, T, (500,400))
-    cv2.imwrite('img_T.jpeg', img_T)
+    cv2.imwrite('./pics/img_T.jpeg', img_T)
     #Depth Calculation
     d = 5.5
     c = math.pi * d

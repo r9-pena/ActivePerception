@@ -3,6 +3,7 @@ from buildhat import MotorPair
 from buildhat import Motor
 import time
 from Contour import Contour
+from Matrix import Matrix
 import cv2
 import math
 
@@ -20,23 +21,25 @@ class LegoRobot():
         self.motor_c.run_to_position(0) # Reset camera to position 0
         #initial picture taking
         self.camera = cv2.VideoCapture(0)
-        self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, 500)
-        self.camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 400)
+        # self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, 500)
+        # self.camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 400)
         #self.camera.flip()
         #self.camera.hflip=True
         #self.camera.resolution = (500,400)
         self.counter = 0
         self.algorithm = {
-            'contour':Contour,
-            #'matrix':Matrix,
+            '1':Contour,
+            '2':Matrix,
             #'rotation':Rotation
             }
 
 
     def object_align(self, wheel_rotation, select):
         # first picture taking
-        self.check_centering()
-        path1 = './pic' + str(self.counter) +'.jpg'
+        if self.check_centering() == False:
+            print('Exiting program')
+            return False
+        path1 = './pics/pic' + str(self.counter) +'.jpeg'
         ret, frame = self.camera.read()
         cv2.imwrite(path1,frame)
         self.counter+=1
@@ -46,7 +49,7 @@ class LegoRobot():
         time.sleep(1)
         
         # second picture taking
-        path2 = './pic' + str(self.counter) +'.jpg'
+        path2 = './pics/pic' + str(self.counter) +'.jpeg'
         ret, frame = self.camera.read()
         cv2.imwrite(path2,frame)
         self.counter+=1
@@ -56,23 +59,54 @@ class LegoRobot():
 
 
     def check_centering(self):
-        self.camera.start_preview()
+        #self.camera.start_preview()
+        if self.camera.isOpened() == False:
+            print('Camera not working')
+            return False
         input('Are you ready??')
-        self.camera.stop_preview()
-        return
+        while(True):
+            # Capture the video frame
+            # by frame
+            ret, frame = self.camera.read()
+        
+            # Display the resulting frame
+            cv2.imshow('frame', frame)   
+            # the 'q' button is set as the
+            # quitting button you may use any
+            # desired button of your choice
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+        return True
 
 
     def image_process(self,select,path1,path2):
         img1,img2 = cv2.imread(path1),cv2.imread(path2)
+        img1 = cv2.flip(img1,-1)
+        img2 = cv2.flip(img2,-1)
         rot, depth = self.algorithm[select].congeal(img1,img2)
         print(rot,depth)
+
+    def user_selection(self):
+        print('Please select algorithm to run')
+        print('1.Contour 2.Matrix 3.Rotation')
+        sel = input()
+        sel = str(sel)
+        return sel
 
 def main():
     wheel_rotation = 0.3
     distance_traveled = CIRCUMFERENCE * wheel_rotation
     robot = LegoRobot()
-    robot.object_align(wheel_rotation,'contour')
+    if robot == False:
+        return
+    # Ask user to choose algorithm to be used
+    selection = robot.user_selection()
+    # Begin objec tracking
+    robot.object_align(wheel_rotation,selection)
+    # Release camera object after program conclusion
     robot.camera.release()
+    # Destroy all the windows
+    cv2.destroyAllWindows()
 
 if __name__ == "__main__":
     main()
