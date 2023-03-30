@@ -2,7 +2,12 @@
 *.jpeg
 *.jpg
 
+*/__pycache__/*
+
 */Demo
 */Dist_20
 */Dist_40
 */Dist_60
+*/pics
+
+cam_test.py
