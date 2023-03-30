@@ -7,9 +7,7 @@ import math
 def congeal (img1, img2):
     
     img1 = img1
-    #cv2.imshow("img1", img1)
     img2 = img2
-    #cv2.imshow('img2', img2)
 
     def bgr_hsv (img1, img2):
         hsv1 = cv2.cvtColor(img1, cv2.COLOR_BGR2HSV)
